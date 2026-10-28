@@ -1,49 +1,35 @@
-![CI](https://github.com/Raphailinc/Mars-Lab-Project/actions/workflows/ci.yml/badge.svg)
-![Coverage](https://raw.githubusercontent.com/Raphailinc/Mars-Lab-Project/main/badges/coverage.svg)
+# Mars Lab Project
 
-## Mars Lab Project
+[![CI](https://github.com/Raphailinc/Mars-Lab-Project/actions/workflows/ci.yml/badge.svg)](https://github.com/Raphailinc/Mars-Lab-Project/actions/workflows/ci.yml)
 
-![UI](docs/mars-lab.svg)
+[English](README.md) · [Русский](README.ru.md)
 
-Мини-приложение для отправки и просмотра отчётов (Express + MongoDB + React).
+A full-stack portfolio application for submitting reports and browsing previously submitted records.
 
-### Quickstart
+## What it does
+
+- Submit report text with an uploaded attachment.
+- Persist reports in MongoDB through Mongoose.
+- Check configured communication windows in the API.
+- Exercise Express endpoints with Jest, Supertest and an in-memory MongoDB test server.
+
+## Run locally
+
 ```bash
-npm install
+npm ci
+cp .env.example .env
+# Start MongoDB locally, or set MONGODB_URI to a development database.
 npm run build
-npm start              # http://localhost:3000/api
-```
-`.env` (пример):
-```
-MONGODB_URI=mongodb://localhost:27017/mars_lab
-PORT=3000
-UPLOAD_DIR=uploads
+npm start
 ```
 
-### API (curl-примеры)
+## Checks
+
 ```bash
-# Проверка связи
-curl -i http://localhost:3000/api/check-connection
-
-# Загрузка файла
-curl -F "file=@report.pdf" http://localhost:3000/api/upload-file
-# -> {"fileName":"<stored-name>"}
-
-# Создать отчёт и получить список
-curl -X POST http://localhost:3000/api/reports \
-  -H "Content-Type: application/json" \
-  -d '{"scientistName":"Alice","reportContent":"Soil sample","fileName":"report.pdf"}'
-curl http://localhost:3000/api/reports
+npm test
+npm run lint
 ```
 
-### Архитектура
-- `backend/src/app.js` — Express API, guard по окнам связи, Multer uploads, MongoDB (Mongoose).
-- `backend/tests/` — Jest + supertest + mongodb-memory-server (in-memory) для API.
-- `frontend/src/` — React SPA (отправка отчёта, список /reports), сборка webpack в `frontend/public/bundle.js`.
-- `uploads/` — сохраняются автоматически, раздаются статикой `/uploads`.
-- `periods.json` — окна связи (health-check /api/check-connection).
+## Scope and implementation notes
 
-### Quality
-- Линт: `npm run lint` (ESLint + Prettier)
-- Тесты: `npm test` (Jest + supertest + mongodb-memory-server, с coverage)
-- CI: GitHub Actions (`ci.yml`) — lint + tests on Node 18.
+API: `http://localhost:3000/api/`. Tests may download a MongoDB test binary on their first run. The SVG in the Russian documentation is a UI illustration. Configure a deployment-specific authentication and upload policy before public use.
