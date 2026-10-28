@@ -33,3 +33,5 @@ npm run lint
 ## Scope and implementation notes
 
 API: `http://localhost:3000/api/`. Tests may download a MongoDB test binary on their first run. The SVG in the Russian documentation is a UI illustration. Configure a deployment-specific authentication and upload policy before public use.
+
+Requires Node.js 22.17+; use the committed npm lockfile with `npm ci`.

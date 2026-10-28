@@ -38,11 +38,10 @@ module.exports = {
     },
     hot: true,
     historyApiFallback: true,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-      },
-    },
+    proxy: [{
+      context: ['/api'],
+      target: 'http://localhost:3000',
+      changeOrigin: true,
+    }],
   },
 };

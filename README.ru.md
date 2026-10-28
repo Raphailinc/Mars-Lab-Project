@@ -47,3 +47,5 @@ curl http://localhost:3000/api/reports
 - Линт: `npm run lint` (ESLint + Prettier)
 - Тесты: `npm test` (Jest + supertest + mongodb-memory-server, с coverage)
 - CI: GitHub Actions (`ci.yml`) — lint + tests on Node 18.
+
+Требуется Node.js 22.17+; зависимости устанавливаются через `npm ci` с сохранённым lockfile.
