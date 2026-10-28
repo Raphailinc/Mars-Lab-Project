@@ -1,51 +1,35 @@
-![CI](https://github.com/Raphailinc/Mars-Lab-Project/actions/workflows/ci.yml/badge.svg)
-![Coverage](https://raw.githubusercontent.com/Raphailinc/Mars-Lab-Project/main/badges/coverage.svg)
+# Mars Lab Project
 
-## Mars Lab Project
+[![CI](https://github.com/Raphailinc/Mars-Lab-Project/actions/workflows/ci.yml/badge.svg)](https://github.com/Raphailinc/Mars-Lab-Project/actions/workflows/ci.yml)
 
-![UI](docs/mars-lab.svg)
+[English](README.md) · [Русский](README.ru.md)
 
-Мини-приложение для отправки и просмотра отчётов (Express + MongoDB + React).
+Fullstack-проект для отправки отчётов и просмотра сохранённых записей.
 
-### Quickstart
+## Возможности
+
+- Отправка текста отчёта с вложением.
+- Сохранение в MongoDB через Mongoose.
+- Проверка настроенных временных окон связи в API.
+- Тесты Express через Jest, Supertest и тестовый MongoDB.
+
+## Локальный запуск
+
 ```bash
-npm install
+npm ci
+cp .env.example .env
+# Start MongoDB locally, or set MONGODB_URI to a development database.
 npm run build
-npm start              # http://localhost:3000/api
-```
-`.env` (пример):
-```
-MONGODB_URI=mongodb://localhost:27017/mars_lab
-PORT=3000
-UPLOAD_DIR=uploads
+npm start
 ```
 
-### API (curl-примеры)
+## Проверки
+
 ```bash
-# Проверка связи
-curl -i http://localhost:3000/api/check-connection
-
-# Загрузка файла
-curl -F "file=@report.pdf" http://localhost:3000/api/upload-file
-# -> {"fileName":"<stored-name>"}
-
-# Создать отчёт и получить список
-curl -X POST http://localhost:3000/api/reports \
-  -H "Content-Type: application/json" \
-  -d '{"scientistName":"Alice","reportContent":"Soil sample","fileName":"report.pdf"}'
-curl http://localhost:3000/api/reports
+npm test
+npm run lint
 ```
 
-### Архитектура
-- `backend/src/app.js` — Express API, guard по окнам связи, Multer uploads, MongoDB (Mongoose).
-- `backend/tests/` — Jest + supertest + mongodb-memory-server (in-memory) для API.
-- `frontend/src/` — React SPA (отправка отчёта, список /reports), сборка webpack в `frontend/public/bundle.js`.
-- `uploads/` — сохраняются автоматически, раздаются статикой `/uploads`.
-- `periods.json` — окна связи (health-check /api/check-connection).
+## Условия запуска и границы проекта
 
-### Quality
-- Линт: `npm run lint` (ESLint + Prettier)
-- Тесты: `npm test` (Jest + supertest + mongodb-memory-server, с coverage)
-- CI: GitHub Actions (`ci.yml`) — lint + tests on Node 18.
-
-Требуется Node.js 22.17+; зависимости устанавливаются через `npm ci` с сохранённым lockfile.
+Требуется Node.js 22.17+. API: http://localhost:3000/api/. Запустите MongoDB или задайте MONGODB_URI для локальной БД. Первый запуск тестов может скачать тестовый бинарный файл MongoDB. SVG в docs — иллюстрация интерфейса. Перед публичным развёртыванием требуется отдельная политика аутентификации и загрузок.
